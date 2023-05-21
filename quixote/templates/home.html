@@ -1,0 +1,10 @@
+<!-- templates/home.html -->
+{% load socialaccount %}
+
+<h1>Backtesting Land</h1>
+{% if user.is_authenticated %}
+<p>Welcome {{ user.username }} !!!</p>
+{% else %}
+<!-- <a href="{% provider_login_url 'github' %}">Sign Up with Github</a> <br> -->
+<a href="{% url 'account_login' %}">Sign Up with Email and Password</a>
+{% endif %}

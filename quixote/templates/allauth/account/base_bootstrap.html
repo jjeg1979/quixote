@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load static %}
+{# Load the bootstrap5 library #}
+{% load bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %}</title>
+  <!-- Bootstrap for mobile devices and CDN for Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# Load CSS and JavaScript #}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <!-- Our own css file-->
+  <link rel="stylesheet" href="{% static " css/base.css" %}" type="text/css">
+  {% block extra-title %}
+  {% endblock %}
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navbar from Bootstrapv5 Official Docs -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% bootstrap_messages %}
+
+  <div id="content" class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <div id="extra-content">
+    {% block extra-content %}
+    {% endblock %}
+  </div>
+
+  <!-- My own JS -->
+  <script src="{% static 'js/script.js' %}"></script>
+  <!-- Char.js -->
+  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-dark">
+    <div id="footer-text">
+      Made with &#x2764; by JJ
+    </div>
+
+  </footer>
+</body>
+
+</html>
