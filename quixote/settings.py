@@ -49,7 +49,9 @@ THIRD_PARTY_APPS = [
     "django_bootstrap5",
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS = [
+    "sancho.apps.SanchoConfig",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
