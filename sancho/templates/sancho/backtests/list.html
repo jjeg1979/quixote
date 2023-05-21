@@ -1,0 +1,36 @@
+{% extends "sancho/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+Backtest Listing
+{% endblock %}
+
+{% block content %}
+<h1>List of Available Backtests</h1>
+<table class="table">
+    <thead>
+        <th>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Optimization #</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Order Type</th>
+                <th scope="col">TimeFrame</th>
+                <th scope="col">Source</th>
+            </tr>
+        </th>
+    </thead>
+    <tbody>
+        {% for bt in bts %}
+        <tr>
+            <th scope="row">{{ bt.name }}</th>
+            <td>{{ bt.optimization }}</td>
+            <td>{{ bt.symbol }}</td>
+            <td>{{ bt.ordertype }}</td>
+            <td>{{ bt.timeframe }}</td>
+            <td>{{ bt.family }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -5,13 +5,10 @@ from django.urls import path
 from . import views
 
 # Needed for the include in the settings
-app_name = 'sancho'
+app_name = "sancho"
 
 urlpatterns = [
-    #path("", views.index, name="index"),
-    # path('backtest', views.bt_list, name='backtest_list'),
-    #path('backtest/metrics/<int:bt_id>/', views.bt_metrics, name='backtest_metrics'),
-    #path('backtest/uploadBacktests.html', views.upload_backtest, name='upload_backtests'),
-    #path('class/backtest', views.BacktestListView.as_view(), name='class_backtest_list'),
-    #path('backtest/process.html', views.ProcessBacktests.as_view(), name='process_backtest'),
+    path(
+        "backtests/lists.html", views.ListBacktests.as_view(), name="list_backtests"
+    ),
 ]
