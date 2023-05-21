@@ -24,6 +24,8 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", Home.as_view(), name="home"),
     path("sancho/", include("sancho.urls", namespace="sancho")),
+    # django debug toolbar
+    path('__debug__', include('debug_toolbar.urls')),
 ]
 
 if settings.DEBUG:

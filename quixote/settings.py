@@ -47,6 +47,8 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.github",  # new
     # bootstrapv5
     "django_bootstrap5",
+    # django debug toolbar
+    "debug_toolbar",
 ]
 
 PROJECT_APPS = [
@@ -63,6 +65,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # django debug toolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "quixote.urls"
@@ -155,3 +159,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 LOGIN_REDIRECT_URL = "home"
 
 LOGOUT_REDIRECT_URL = "home"
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
