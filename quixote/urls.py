@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import Home
+from .views import Home, About
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path("my-backend/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("", Home.as_view(), name="home"),
+    path("about", About.as_view(), name="about"),
     path("sancho/", include("sancho.urls", namespace="sancho")),
     # django debug toolbar
     path('__debug__', include('debug_toolbar.urls')),

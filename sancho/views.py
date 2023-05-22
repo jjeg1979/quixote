@@ -9,3 +9,6 @@ from .models import Backtest, Metrics
 class ListBacktests(ListView):
     model = Backtest
     template_name = "sancho/backtests/list.html"
+    
+    
+class ProcessBacktests(View):

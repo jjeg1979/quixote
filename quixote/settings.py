@@ -77,6 +77,7 @@ TEMPLATES = [
         "DIRS": [
             Path(BASE_DIR / "quixote/templates"),
             Path(BASE_DIR / "quixote/templates/allauth"),
+            Path(BASE_DIR / 'sancho/templates'),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
