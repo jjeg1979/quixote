@@ -75,12 +75,22 @@ class Backtest(models.Model):
         SELL = "SELL", "Sell"
         BOTH = "BUY&SELL", "Buy and Sell"
 
+    # Clase que contiene los diferentes periodos
+    class PeriodType(models.TextChoices):
+        IS = "IS", "In Sample"
+        OS = "OS", "Out of Sample"
+        ISOS = "ISOS", "ALL"
+
     # Campos del modelo Backtest
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=150)
     
     optimization = models.IntegerField()
+
+    period_type = models.CharField(
+        max_length=4, choices=PeriodType.choices, default=PeriodType.ISOS
+    )
 
     initial_balance = models.DecimalField(max_digits=6, decimal_places=0, default=10000)
 
@@ -109,6 +119,7 @@ class Backtest(models.Model):
     class Meta:
         ordering = ["name"]
         indexes = [models.Index(fields=["name"])]
+        unique_together = ('name', 'optimization', 'period_type')
 
     def __str__(self) -> str:
         return f"Backtest: {self.name.split()[0]} for pair: {self.symbol}"
@@ -116,23 +127,13 @@ class Backtest(models.Model):
 
 # Metrics model
 class Metrics(models.Model):
-    # Clase que contiene los diferentes periodos
-    class PeriodType(models.TextChoices):
-        IS = "IS", "In Sample"
-        OS = "OS", "Out of Sample"
-        ISOS = "ISOS", "ALL"
-
     # Campos del modelo Metrics
     # Este campo relaciona el modelo Backtest con el modelo Metrics
-    backtest = models.ForeignKey(Backtest, on_delete=models.CASCADE)
+    backtest = models.ForeignKey(Backtest, on_delete=models.CASCADE)   
+
+    # Aquí empiezan los campos primitivos  
 
     is_valid = models.BooleanField()
-
-    # Aquí empiezan los campos primitivos
-    period_type = models.CharField(
-        max_length=4, choices=PeriodType.choices, default=PeriodType.ISOS
-    )
-
     profit = models.DecimalField(max_digits=8, decimal_places=2)
     loss = models.DecimalField(max_digits=8, decimal_places=2)
     num_ops = models.PositiveIntegerField()

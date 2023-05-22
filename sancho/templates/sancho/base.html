@@ -15,7 +15,7 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   <!-- Our own css file-->
-  <link rel="stylesheet" href="{% static "css/base.css" %}" type="text/css">
+  <link rel="stylesheet" href="{% static " css/base.css" %}" type="text/css">
   {% block extra-title %}
   {% endblock %}
 </head>
@@ -35,7 +35,7 @@
           <a class="nav-link" href="{% url 'sancho:process_backtests' %}">Procesar Backtests</a>
           <a class="nav-link" href="{% url 'sancho:list_backtests' %}">Ver Backtests</a>
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Comprar BTTokens</a>
-          <a class="nav-link" href="{% url 'about' %}" tabindex="-1" aria-disabled="false">About</a>
+          <a class="nav-link" href="{% url 'sancho:about' %}" tabindex="-1" aria-disabled="false">About</a>
         </div>
       </div>
     </div>

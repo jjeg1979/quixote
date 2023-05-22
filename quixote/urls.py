@@ -22,9 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("my-backend/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("", Home.as_view(), name="home"),
-    path("about", About.as_view(), name="about"),
-    path("sancho/", include("sancho.urls", namespace="sancho")),
+    path("", Home.as_view(), name="home"),    
+    path("backtests/", include("sancho.urls", namespace="sancho")),
     # django debug toolbar
     path('__debug__', include('debug_toolbar.urls')),
 ]

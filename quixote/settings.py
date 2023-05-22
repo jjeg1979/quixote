@@ -165,4 +165,6 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-MEDIA_ROOT = '/uploads/'
+MEDIA_ROOT = 'uploads/'
+
+DATA_UPLOAD_MAX_NUMBER_FILES = 300
