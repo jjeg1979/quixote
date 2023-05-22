@@ -3,19 +3,15 @@
 {% load django_bootstrap5 %}
 {% load socialaccount %}
 
-<div class="container">
-    <h1>Backtesting Land</h1>
-</div>
+{% block content %}
+        <h1>Backtesting Land</h1>
 
-{% if user.is_authenticated %}
-<div class="container">
-    <p>¡¡¡ Bienvenido {{ user.username }} !!!
-        <a href="{% url 'account_logout' %}">Salir</a>
-    </p>
-</div>
-{% else %}
-<div class="container">
-    <!-- <a href="{% provider_login_url 'github' %}">Sign Up with Github</a> <br> -->
-    <a href="{% url 'account_login' %}">Registrarse con Email and Password</a>
-</div>
-{% endif %}
+    {% if user.is_authenticated %}
+        <p>¡¡¡ Bienvenido {{ user.username }} !!!
+            <a href="{% url 'account_logout' %}">Salir</a>
+        </p>
+    {% else %}
+        <!-- <a href="{% provider_login_url 'github' %}">Sign Up with Github</a> <br> -->
+        <a href="{% url 'account_login' %}">Registrarse con Email and Password</a>
+    {% endif %}
+{% endblock %}

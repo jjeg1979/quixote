@@ -164,3 +164,5 @@ LOGOUT_REDIRECT_URL = "home"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+MEDIA_ROOT = '/uploads/'
