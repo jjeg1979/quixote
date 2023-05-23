@@ -127,7 +127,7 @@ class ProcessBacktests(View):
                 os.remove(ruta_bt)
         
         if settings.DEBUG:        
-            print(f'Duración del procesamiento de backtest {(datetime.now() - inicio).minutes} minutos')
+            print(f'Duración del procesamiento de backtest {(datetime.now() - inicio).seconds // 60} minutos')
         self.create_registers(bts, mts)
                     
         context = {
