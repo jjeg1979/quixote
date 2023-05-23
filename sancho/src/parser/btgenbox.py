@@ -185,9 +185,12 @@ class BtGenbox(BtParser):
         # ops.drop(1, inplace=True)
         ops.reset_index(inplace=True, drop=True)
 
-        # El informe termina con la cadena 'Closed P/L:'
+        # El informe termina con la cadena 'Closed P/L:'        
         end_of_data = 'Closed P/L:'
-        idx = ops.index[ops.Ticket == end_of_data].to_list()[0]
+        if (ops.Ticket == end_of_data).any():
+            idx = ops.index[ops.Ticket == end_of_data].to_list()[0]
+        else:
+            idx = ops.index.to_list()[-1]
 
         # Seleccionamos sólo las operaciones
         ops = ops.iloc[0:idx, :]

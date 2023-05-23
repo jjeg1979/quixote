@@ -9,7 +9,4 @@ from .btparser import (
     BtPlatforms,
 )
 
-BT_FILES = [file for file in listdir(r'sancho/src/payload/') \
-    if file.endswith(BT_EXTENSIONS)]
-
 __version__ = '0.1.0'

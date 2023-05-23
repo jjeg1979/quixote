@@ -92,7 +92,7 @@ class Backtest(models.Model):
         max_length=4, choices=PeriodType.choices, default=PeriodType.ISOS
     )
 
-    initial_balance = models.DecimalField(max_digits=6, decimal_places=0, default=10000)
+    initial_balance = models.DecimalField(max_digits=15, decimal_places = 2, default=10000)
 
     symbol = models.CharField(
         max_length=6, choices=ForexPair.choices, default=ForexPair.EURUSD
@@ -122,7 +122,8 @@ class Backtest(models.Model):
         unique_together = ('name', 'optimization', 'period_type')
 
     def __str__(self) -> str:
-        return f"Backtest: {self.name.split()[0]} for pair: {self.symbol}"
+        return f"""Backtest: {self.name.split()[0]} for pair: {self.symbol} 
+                    and period: {self.period_type}"""
 
 
 # Metrics model
@@ -134,34 +135,34 @@ class Metrics(models.Model):
     # Aquí empiezan los campos primitivos  
 
     is_valid = models.BooleanField()
-    profit = models.DecimalField(max_digits=8, decimal_places=2)
-    loss = models.DecimalField(max_digits=8, decimal_places=2)
+    profit = models.DecimalField(max_digits=15, decimal_places=4)
+    loss = models.DecimalField(max_digits=15, decimal_places=4)
     num_ops = models.PositiveIntegerField()
 
-    pf = models.DecimalField(max_digits=4, decimal_places=2)
-    rf = models.DecimalField(max_digits=4, decimal_places=2)
-    dd = models.DecimalField(max_digits=6, decimal_places=2)
-    ep = models.DecimalField(max_digits=5, decimal_places=2)
+    pf = models.DecimalField(max_digits=15, decimal_places=4)
+    rf = models.DecimalField(max_digits=15, decimal_places=4)
+    dd = models.DecimalField(max_digits=15, decimal_places=4)
+    ep = models.DecimalField(max_digits=15, decimal_places=4)
 
-    kratio = models.DecimalField(max_digits=4, decimal_places=2)
+    kratio = models.DecimalField(max_digits=15, decimal_places=4)
     max_losing_strike = models.PositiveIntegerField()
     max_winning_strike = models.PositiveIntegerField()
     avg_losing_strike = models.PositiveIntegerField()
     avg_winning_strike = models.PositiveIntegerField()
-    max_lots = models.DecimalField(max_digits=4, decimal_places=2)
-    min_lots = models.DecimalField(max_digits=4, decimal_places=2)
-    max_exposure = models.DecimalField(max_digits=4, decimal_places=2)
+    max_lots = models.DecimalField(max_digits=15, decimal_places=4)
+    min_lots = models.DecimalField(max_digits=15, decimal_places=4)
+    max_exposure = models.DecimalField(max_digits=15, decimal_places=4)
     time_in_market = models.DurationField()
-    pct_winner = models.DecimalField(max_digits=4, decimal_places=2)
+    pct_winner = models.DecimalField(max_digits=15, decimal_places=4)
     closing_days = models.PositiveIntegerField()
-    sqn = models.DecimalField(max_digits=4, decimal_places=2)
-    sharpe_ratio = models.DecimalField(max_digits=4, decimal_places=2)
+    sqn = models.DecimalField(max_digits=15, decimal_places=4)
+    sharpe_ratio = models.DecimalField(max_digits=15, decimal_places=4)
     best_operation_pips = models.IntegerField()
     best_operation_datetime = models.DateTimeField()
     worst_operation_pips = models.IntegerField()
     worst_operation_datetime = models.DateTimeField()
-    avg_win = models.DecimalField(max_digits=6, decimal_places=2)
-    avg_loss = models.DecimalField(max_digits=6, decimal_places=2)
+    avg_win = models.DecimalField(max_digits=15, decimal_places=4)
+    avg_loss = models.DecimalField(max_digits=15, decimal_places=4)
     total_bt_duration = models.DurationField()
     avg_op_duration = models.DurationField()
     longest_op_duration = models.DurationField()
@@ -176,9 +177,11 @@ class Metrics(models.Model):
         indexes = [models.Index(fields=["-kratio"])]
 
     def __str__(self):
-        return f"""Backtest main metrics: 
-
-                ¿Valida?: 'Sí' if {self.is_valid} is True else 'No',
+        valido = 'Sí' if self.is_valid is True else 'No'
+        return f"""
+                Backtest main metrics: 
+                ¿Valida?: {valido},
                 kratio: {self.kratio}, Recuperation Factor: {self.rf}
                 Max. exposure: {self.max_exposure}, Closing Days: {self.closing_days}
-                Num. Ops: {self.num_ops}"""
+                Num. Ops: {self.num_ops}
+                """

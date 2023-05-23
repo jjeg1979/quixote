@@ -9,19 +9,42 @@
         <div class="col-6">
           <h5>Archivos procesados:</h5>
           <ul>
-            {% for file in files %}
-            <li>{{ file }}</li>
+            {% for bt in bts %}
+            <li>{{ bt.name }}</li>
             {% endfor %}
           </ul>
         </div>
         <div class="col-6">
-          <h5>Resultados:</h5>
-          {% for result in results %}
-          <p>{{ result }}</p>
-          {% endfor %}
+            <h5>Resultados:</h5>
+            <table class="table">
+              <thead>
+                  <th>
+                      <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Optimization #</th>
+                          <th scope="col">Symbol</th>
+                          <th scope="col">Order Type</th>
+                          <th scope="col">TimeFrame</th>
+                          <th scope="col">Is Valid?</th>
+                      </tr>
+                  </th>
+              </thead>
+              <tbody>
+                {% for mt in mts %}
+                <tr>
+                    <th scope="row">{{ mt.backtest.name }}</th>
+                    <td>{{ mt.backtest.optimization }}</td>
+                    <td>{{ mt.backtest.symbol }}</td>
+                    <td>{{ mt.backtest.ordertype }}</td>
+                    <td>{{ mt.backtest.timeframe }}</td>
+                    <td>{{ mt.valid }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </div>
-{% endblock %}o
+{% endblock %}
