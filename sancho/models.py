@@ -19,7 +19,8 @@ class ProfitableBacktests(models.Manager):
 
 class ValidBacktests(models.Manager):
     def get_queryset(self) -> QuerySet:
-        return super().get_queryset().filter((Metrics.is_valid == True))
+        return super().get_queryset().filter(backtest.__metrics__is_valid == True,
+                                             backtest__period_type == Backtest.PeriodType.ISOS)
 
 
 # Backtest model
@@ -115,6 +116,7 @@ class Backtest(models.Model):
 
     objects = models.Manager()  # Default Manager
     genboxbt = GenboxBacktest()  # Custom Manager
+    valid = ValidBacktests()    # Custom Manager
 
     class Meta:
         ordering = ["name"]
@@ -169,8 +171,7 @@ class Metrics(models.Model):
     shortest_op_duration = models.DurationField()
 
     objects = models.Manager()
-    profitable = ProfitableBacktests()
-    valid = ValidBacktests()
+    profitable = ProfitableBacktests()    
 
     class Meta:
         ordering = ["-kratio", "-rf", "max_exposure", "closing_days", "-num_ops"]

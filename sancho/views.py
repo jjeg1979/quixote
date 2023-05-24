@@ -43,8 +43,10 @@ class ProcessBacktests(View):
             timeframe = request.POST.get('tfs')
             user = request.user
             
-            bts = [] # Store BtGenbox
-            mts = [] # Store 
+            bts = [] # Store GenboxBacktest model
+            mts = [] # Store Metrics model
+            gbx = [] # Store BtGenbox
+            mtx = [] # Store BtMetrics
             
             inicio = datetime.now()
             for bt in backtests:
@@ -58,6 +60,8 @@ class ProcessBacktests(View):
                                 # Create BtGenbox object y BtMetrics
                 bt_gbx = BtGenbox(Path(settings.MEDIA_ROOT), bt.name)
                 bt_mts = BtMetrics(bt_gbx)
+                gbx.append(bt_gbx)
+                mtx.append(bt_mts)
                 
                 # Creamos los objetos correspondientes a los modelos
                 
@@ -119,23 +123,33 @@ class ProcessBacktests(View):
                     shortest_op_duration=bt_gbx.operations.Duration.min(),
                 )
                 mts.append(metrics)
-
-                bt_gbx = None
-                bt_mts = None
-                backtest = None
-                metrics = None                
+                              
                 os.remove(ruta_bt)
         
         if settings.DEBUG:        
-            print(f'Duración del procesamiento de backtest {(datetime.now() - inicio).seconds // 60} minutos')
+            print(f'Duración del procesamiento de backtest {(datetime.now() - inicio).seconds} segundos')
         self.create_registers(bts, mts)
-                    
-        context = {
-            'bts': bts,
-            'mts': mts,
-        }
         
-        breakpoint()
+        # Create lists to pass formated data to the template
+        mt_data = []
+        for mt in mtx:
+            mt_data.append({
+                'name': mt.bt.name,
+                'optimization': opti_number,
+                'symbol': mt.bt.symbol,
+                'ordertype_text': mt.bt.from_ordertype_to_text(mt.bt.ordertype),
+                'period_text': mt.bt.from_period_to_text(mt.bt.period),
+                'timeframe': timeframe,
+                'valid': mt.valid
+            })           
+        context = {
+            'bts': gbx,
+            'num_periods': len(bts),
+            'num_bts': len(bts) / 3,
+            'timeframe': timeframe,
+            'mts': mt_data,
+        }        
+        
         # Enviar datos al formulario de salida
         return render(request, 'sancho/backtests/processed.html', context=context)
     
