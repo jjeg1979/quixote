@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# [0.0.4] - 2024-05-23
+
+### Added
+    - Button to list.html template to export csv data 
+    -
+    
+
+### Fixed
+    - Wrong display of fields in list.html
+
+### Changed
+    -
+
+### Removed
+    - Commented import to FileSystemStorage in views.py for sancho app
+
 ## [0.0.3] - 2024-05-23
 
 ### Added

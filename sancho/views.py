@@ -1,5 +1,6 @@
 # Python imports
 import os
+import csv
 from datetime import datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
@@ -8,14 +9,15 @@ from pathlib import Path
 from django.http import HttpResponse
 from django.views.generic import ListView, View, TemplateView
 from django.shortcuts import render, get_object_or_404, redirect
-from django.core.files.storage import FileSystemStorage
+# from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import Case, CharField, Value, When
 
 # Project imports
 from .models import Backtest, Metrics
-from .src.parser.btgenbox import BtGenbox
+from .src.parser.btgenbox import BtGenbox, BtPeriods, BtOrderType
 from .src.parser.btmetrics import BtMetrics, DEC_PREC
 
 
@@ -27,6 +29,62 @@ class About(TemplateView):
 class ListBacktests(ListView):
     model = Backtest
     template_name = "sancho/backtests/list.html"
+    context_object_name = 'bts'
+    
+    
+    '''def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Acceder al nombre del campo ordertype usando get_ordertype_display()
+        for bt in context['bts']:
+            breakpoint()
+       
+            match bt.ordertype:
+                case BtOrderType.BUY:
+                    bt.ordertype_display = 'Buy'
+                case BtOrderType.SELL:
+                    bt.ordertype_display = 'Sell'
+                case BtOrderType.BOTH:
+                    bt.ordertype_display = 'Buy/Sell'
+
+            match bt.period_type:
+                case BtPeriods.IS:
+                    bt.periodtype_display = 'IS'
+                case BtPeriods.OS:
+                    bt.periodtype_display = 'OS'
+                case BtPeriods.ISOS:
+                    bt.periodtype_display = 'ISOS'
+                    
+            bt.timeframe_display = bt.get_timeframe_display()
+            bt.family_display = bt.get_family_display()
+            
+        return context'''
+    
+    
+    def get_queryset(self):        
+        queryset = super().get_queryset().filter(period_type=BtPeriods.ISOS)       
+        
+        # Fine tune output
+        queryset = queryset.annotate(
+                ordertype_display=Case(
+            When(ordertype=BtOrderType.BUY, then=Value('Buy')),
+            When(ordertype=BtOrderType.SELL, then=Value('Sell')),
+            When(ordertype=BtOrderType.BOTH, then=Value('Buy/Sell')),
+            output_field=CharField(),
+            ),
+        period_type_display=Case(
+            When(period_type=BtPeriods.IS, then=Value('IS')),
+            When(period_type=BtPeriods.OS, then=Value('OS')),
+            When(period_type=BtPeriods.ISOS, then=Value('ISOS')),
+            output_field=CharField(),
+            ),
+        )
+
+        for bt in queryset:    
+            bt.timeframe_display = bt.get_timeframe_display()
+            bt.family_display = bt.get_family_display()
+                       
+        return queryset
     
 
 class ProcessBacktests(View):
@@ -163,3 +221,22 @@ class ProcessBacktests(View):
 class ProcessedBacktests(ListView):
     model = Backtest
     template_name = "sancho/backtests/processed.html"
+    
+    
+def export_backtests(request):
+    breakpoint()
+    bts = Backtest.valid.all()
+    
+    response = HttpResponse(content_type='text/csv')
+    response['Content Disposition'] = 'attachment; filename="backtests.csv"'
+    
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Optimization', 'Symbol', 'Order Type,', 'TimeFrame', 'Source'])
+    
+    for bt in bts:
+        writer.writerow([bt.name, bt.optimization, bt.symbol, bt.ordertype, bt.timeframe, bt.family])
+
+    return response
+                            
+    
+    

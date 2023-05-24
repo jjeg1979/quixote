@@ -19,4 +19,5 @@ urlpatterns = [
         "processed.html", login_required(views.ProcessedBacktests.as_view()), name="processed_backtests"
     ),
     path("about", views.About.as_view(), name="about"),
+    path("export/", views.export_backtests, name='export_backtests'),
 ]

@@ -19,8 +19,8 @@ class ProfitableBacktests(models.Manager):
 
 class ValidBacktests(models.Manager):
     def get_queryset(self) -> QuerySet:
-        return super().get_queryset().filter(backtest.__metrics__is_valid == True,
-                                             backtest__period_type == Backtest.PeriodType.ISOS)
+        return super().get_queryset().filter(metrics__is_valid = True,
+                                             period_type = Backtest.PeriodType.ISOS)
 
 
 # Backtest model

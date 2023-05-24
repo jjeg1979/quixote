@@ -7,29 +7,37 @@ Backtest Listing
 
 {% block content %}
 <h1>List of Available Backtests</h1>
+<a href="{% url 'sancho:export_backtests' %}" class="btn btn-primary">Exportar a CSV</a>
 <table class="table">
     <thead>
         <th>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Optimization #</th>
-                <th scope="col">Symbol</th>
-                <th scope="col">Order Type</th>
-                <th scope="col">TimeFrame</th>
-                <th scope="col">Source</th>
+                <th colspan="6" style="text-align: center;">Número de backtests: {{ bts|length }}</th>
+            </tr>
+            <tr>                
+                <th scope="col" tyle="text-align: center;">Name</th>
+                <th scope="col" tyle="text-align: center;">Period</th>
+                <th scope="col" tyle="text-align: center;">Optimization #</th>
+                <th scope="col" tyle="text-align: center;">Symbol</th>
+                <th scope="col" tyle="text-align: center;">Order Type</th>
+                <th scope="col" tyle="text-align: center;">TimeFrame</th>
+                <th scope="col" tyle="text-align: center;">Source</th>
             </tr>
         </th>
     </thead>
     <tbody>
         {% for bt in bts %}
-        <tr>
-            <th scope="row">{{ bt.name }}</th>
-            <td>{{ bt.optimization }}</td>
-            <td>{{ bt.symbol }}</td>
-            <td>{{ bt.ordertype }}</td>
-            <td>{{ bt.timeframe }}</td>
-            <td>{{ bt.family }}</td>
-        </tr>
+            {# if bt.periodtype_display == BtPeriod.ISOS #}
+            <tr>
+                <th scope="row" style="text-align: center;">{{ bt.name }}</th>
+                <td style="text-align: center;">{{ bt.period_type_display  }}</td>
+                <td style="text-align: center;">{{ bt.optimization }}</td>
+                <td style="text-align: center;">{{ bt.symbol }}</td>
+                <td style="text-align: center;">{{ bt.ordertype_display }}</td>
+                <td style="text-align: center;">{{ bt.timeframe_display }}</td>
+                <td style="text-align: center;">{{ bt.family_display }}</td>
+            </tr>
+            {# endif #}
         {% endfor %}
     </tbody>
 </table>
