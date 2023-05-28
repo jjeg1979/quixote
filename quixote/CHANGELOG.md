@@ -7,21 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-# [0.0.4] - 2024-05-23
+## [0.0.4] - 2025-05-23
 
 ### Added
-    - Button to list.html template to export csv data 
-    -
-    
+    - Fields to exported csv with all available tests 
 
 ### Fixed
-    - Wrong display of fields in list.html
+    - valid field in metrics not calculated 
+    - export backtests query to retrieve only ISOS and valid backtests
+    - ProcessBacktests View now assigns correct type to order type, timeframe and period
 
 ### Changed
-    -
+    - get_queryset method in ListBacktests View now uses Backtest Enums instead of BtGenbox Enums
 
 ### Removed
-    - Commented import to FileSystemStorage in views.py for sancho app
+    - 
 
 ## [0.0.3] - 2024-05-23
 
@@ -51,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
     - All metrics added to view to process uploaded backtests
+    - Process.html added some code for the progress bar
+    - Code in ProcessBacktest View to handle progress bar
+    - Added to base.html template a block for the scripts
 
 ### Fixed
     - Bulk insert into database
@@ -61,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Processed.html template to accept the context from ProcessBacktest
     - DATA_UPLOAD_MAX_NUMBER_FILES value changed to 1000 in project settings.py
     - Process.html shows D1 as default selected timeframe - before it was M1.
+    - TimeFrame Enum inside Backtest model names to match the values
 
 ### Removed
     - Backtests directory in sancho/src
@@ -77,4 +81,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 ### Removed
-

@@ -61,15 +61,15 @@ class Backtest(models.Model):
         USDJPY = "UJ", "USDJPY"
 
     class TimeFrame(models.TextChoices):
-        M1 = "M1", "One Minute"
-        M5 = "M5", "Five Minutes"
-        M15 = "M15", "Fifteen Minutes"
-        M30 = "M30", "Thirteen Minutes"
-        H1 = "H1", "One Hour"
-        H4 = "H4", "Four Hours"
-        D1 = "D1", "Daily"
-        W = "W", " Weekly"
-        M = "M", "Monthly"
+        M1 = "M1", "M1"
+        M5 = "M5", "M5"
+        M15 = "M15", "M15"
+        M30 = "M30", "M30"
+        H1 = "H1", "H1"
+        H4 = "H4", "H4"
+        D1 = "D1", "D1"
+        W = "W", " W"
+        M = "M", "M"
 
     class OrderType(models.TextChoices):
         BUY = "BUY", "Buy"
