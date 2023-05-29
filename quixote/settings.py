@@ -29,8 +29,8 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=["http://localhost"], cast=list)
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=["http://localhost"], cast=list)
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -56,7 +56,7 @@ THIRD_PARTY_APPS = [
     # django debug toolbar
     "debug_toolbar",
     # corsheaders
-    #"corsheaders",
+    # "corsheaders",
 ]
 
 PROJECT_APPS = [
@@ -77,7 +77,7 @@ MIDDLEWARE = [
     # django debug toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     # corsheaders
-    #"corsheaders.middelware.CorsMiddleWare",
+    # "corsheaders.middelware.CorsMiddleWare",
 ]
 
 ROOT_URLCONF = "quixote.urls"
@@ -184,5 +184,5 @@ MEDIA_ROOT = "uploads/"
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 1000
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost"]
+CSRF_TRUSTED_ORIGINS = ["https://*.fly.dev"]
 CROS_ORIGIN_ALLOW_ALL = True
