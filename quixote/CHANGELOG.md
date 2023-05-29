@@ -17,11 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
     - Dates in this CHANGELOG.md for previous versions
+    - DATABASE_URL instead of URL_DATABASE in .env and .env.example
+    - Headers in list.html alignment
 
 ### Changed
     - Update DATABASES in quixote/settings.py
     - Update requirements.txt file
-    - Fields to be
+    - Optimization # for Opti.# in lists.html
 
 ### Removed
     - Source from lists.html
