@@ -7,7 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.4] - 2025-05-23
+## [0.0.5] - 202-05-28
+
+### Added
+    - Gunicorn as WSGI server 
+    - Psycopg to connect to a PostgresSQL DB
+    - Added python-decouple to manage environment variables
+    - Valid? K-ratio, RF, %win, Max. Exposure, Ratio and closing days to lists.html
+
+### Fixed
+    - Dates in this CHANGELOG.md for previous versions
+
+### Changed
+    - Update DATABASES in quixote/settings.py
+    - Update requirements.txt file
+    - Fields to be
+
+### Removed
+    - Source from lists.html
+
+## [0.0.4] - 2023-05-25
 
 ### Added
     - Fields to exported csv with all available tests 
@@ -23,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
     - 
 
-## [0.0.3] - 2024-05-23
+## [0.0.3] - 2023-05-24
 
 ### Added
     - Additional fields to processed.html templated after processing backtest.
@@ -43,8 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Report time to process backtests in seconds (Debug Mode Only)
 
 ### Removed
-    - `Archivos procesados` unordered list from processed.html
-    
+    - `Archivos procesados` unordered list from processed.html    
 
 
 ## [0.0.2] - 2023-05-23

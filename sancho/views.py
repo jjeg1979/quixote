@@ -13,7 +13,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 #from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import Case, CharField, Value, When
+from django.db.models import Case, CharField, Value, When, ExpressionWrapper, F, FloatField
 from django.http import JsonResponse
 
 # Project imports
@@ -28,9 +28,9 @@ class About(TemplateView):
 
 # Vista para ver el listado de backtests
 class ListBacktests(ListView):
-    model = Backtest
+    model = Metrics
     template_name = "sancho/backtests/list.html"
-    context_object_name = 'bts'
+    context_object_name = 'mts'
     
     
     '''def get_context_data(self, **kwargs):
@@ -63,27 +63,29 @@ class ListBacktests(ListView):
     
     
     def get_queryset(self):        
-        queryset = super().get_queryset().filter(period_type=Backtest.PeriodType.ISOS)       
+        queryset = super().get_queryset().filter(backtest__period_type=Backtest.PeriodType.ISOS)       
         
         # Fine tune output
         queryset = queryset.annotate(
-                ordertype_display=Case(
-            When(ordertype=Backtest.OrderType.BUY, then=Value('Buy')),
-            When(ordertype=Backtest.OrderType.SELL, then=Value('Sell')),
-            When(ordertype=Backtest.OrderType.BOTH, then=Value('Buy/Sell')),
+                backtest__ordertype_display=Case(
+            When(backtest__ordertype=Backtest.OrderType.BUY, then=Value('Buy')),
+            When(backtest__ordertype=Backtest.OrderType.SELL, then=Value('Sell')),
+            When(backtest__ordertype=Backtest.OrderType.BOTH, then=Value('Buy/Sell')),
             output_field=CharField(),
             ),
-        period_type_display=Case(
-            When(period_type=Backtest.PeriodType.IS, then=Value('IS')),
-            When(period_type=Backtest.PeriodType.OS, then=Value('OS')),
-            When(period_type=Backtest.PeriodType.ISOS, then=Value('ISOS')),
+                backtest__period_type_display=Case(
+            When(backtest__period_type=Backtest.PeriodType.IS, then=Value('IS')),
+            When(backtest__period_type=Backtest.PeriodType.OS, then=Value('OS')),
+            When(backtest__period_type=Backtest.PeriodType.ISOS, then=Value('ISOS')),
             output_field=CharField(),
             ),
         )
 
-        for bt in queryset:    
-            bt.timeframe_display = bt.get_timeframe_display()
-            bt.family_display = bt.get_family_display()
+        for mt in queryset:    
+            mt.backtest.timeframe_display = mt.backtest.get_timeframe_display()
+            #mt.backtest.ordertype_display = mt.backtest.ordertype_display()
+            #mt.backtest.family_display = mt.backtest.get_family_display()
+            mt.ratio = Decimal(-mt.avg_win / mt.avg_loss).quantize(Decimal(DEC_PREC))
                        
         return queryset
     

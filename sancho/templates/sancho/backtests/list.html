@@ -12,32 +12,44 @@ Backtest Listing
     <thead>
         <th>
             <tr>
-                <th colspan="6" style="text-align: center;">Número de backtests: {{ bts|length }}</th>
+                <th colspan="6" style="text-align: center;">Número de backtests: {{ mts|length }}</th>
             </tr>
-            <tr>                
+            <tr>
                 <th scope="col" tyle="text-align: center;">Name</th>
-                <th scope="col" tyle="text-align: center;">Period</th>
                 <th scope="col" tyle="text-align: center;">Optimization #</th>
                 <th scope="col" tyle="text-align: center;">Symbol</th>
                 <th scope="col" tyle="text-align: center;">Order Type</th>
                 <th scope="col" tyle="text-align: center;">TimeFrame</th>
-                <th scope="col" tyle="text-align: center;">Source</th>
+                <th scope="col" tyle="text-align: center;">¿Valida?</th>
+                <th scope="col" tyle="text-align: center;">k-ratio</th>
+                <th scope="col" tyle="text-align: center;">RF</th>
+                <th scope="col" tyle="text-align: center;">Num.Ops</th>
+                <th scope="col" tyle="text-align: center;">%wins</th>
+                <th scope="col" tyle="text-align: center;">Máx. Exposición</th>
+                <th scope="col" tyle="text-align: center;">Ratio</th>
+                <th scope="col" tyle="text-align: center;">Días cierre</th>
             </tr>
         </th>
     </thead>
     <tbody>
-        {% for bt in bts %}
-            {# if bt.periodtype_display == BtPeriod.ISOS #}
-            <tr>
-                <th scope="row" style="text-align: center;">{{ bt.name }}</th>
-                <td style="text-align: center;">{{ bt.period_type_display  }}</td>
-                <td style="text-align: center;">{{ bt.optimization }}</td>
-                <td style="text-align: center;">{{ bt.symbol }}</td>
-                <td style="text-align: center;">{{ bt.ordertype_display }}</td>
-                <td style="text-align: center;">{{ bt.timeframe_display }}</td>
-                <td style="text-align: center;">{{ bt.family_display }}</td>
-            </tr>
-            {# endif #}
+        {% for mt in mts %}
+        {# if mt.backtest.periodtype_display == BtPeriod.ISOS #}
+        <tr>
+            <th scope="row" style="text-align: center;">{{ mt.backtest.name }}</th>
+            <td style="text-align: center;">{{ mt.backtest.optimization }}</td>
+            <td style="text-align: center;">{{ mt.backtest.symbol }}</td>
+            <td style="text-align: center;">{{ mt.backtest.ordertype }}</td>
+            <td style="text-align: center;">{{ mt.backtest.timeframe_display }}</td>
+            <td style="text-align: center;">{{ mt.is_valid }}</td>
+            <td style="text-align: center;">{{ mt.kratio }}</td>
+            <td style="text-align: center;">{{ mt.rf }}</td>
+            <td style="text-align: center;">{{ mt.num_ops }}</td>
+            <td style="text-align: center;">{{ mt.pct_winner }}</td>
+            <td style="text-align: center;">{{ mt.max_exposure }}</td>
+            <td style="text-align: center;">{{ mt.ratio }}</td>
+            <td style="text-align: center;">{{ mt.closing_days }}</td>
+        </tr>
+        {# endif #}
         {% endfor %}
     </tbody>
 </table>

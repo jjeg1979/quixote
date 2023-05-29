@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+from environs import Env
+
+env = Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,11 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-_g2m)u4b9$)p9lqry*dggf=b2-@_q5k$_4*&2y0qiois8s#ss#"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=False, cast=bool)
 
+# ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=["localhost"], cast=list)
 ALLOWED_HOSTS = []
 
 
@@ -35,6 +40,7 @@ DJANGO_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",  # new
     "django.contrib.staticfiles",
     "django.contrib.sites",  # new
 ]
@@ -49,6 +55,8 @@ THIRD_PARTY_APPS = [
     "django_bootstrap5",
     # django debug toolbar
     "debug_toolbar",
+    # corsheaders
+    #"corsheaders",
 ]
 
 PROJECT_APPS = [
@@ -60,6 +68,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # new
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -67,6 +76,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # django debug toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # corsheaders
+    #"corsheaders.middelware.CorsMiddleWare",
 ]
 
 ROOT_URLCONF = "quixote.urls"
@@ -77,7 +88,7 @@ TEMPLATES = [
         "DIRS": [
             Path(BASE_DIR / "quixote/templates"),
             Path(BASE_DIR / "quixote/templates/allauth"),
-            Path(BASE_DIR / 'sancho/templates'),
+            Path(BASE_DIR / "sancho/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -105,6 +116,7 @@ DATABASES = {
     }
 }
 
+# DATABASES = {"default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3")}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -141,6 +153,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "sancho/static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -165,6 +180,9 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-MEDIA_ROOT = 'uploads/'
+MEDIA_ROOT = "uploads/"
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 1000
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost"]
+CROS_ORIGIN_ALLOW_ALL = True
